@@ -1,4 +1,4 @@
 BoxingRoundTimer
 ================
 
-Boxing Round Timer
+A VERY simple round timer in Python for the Mac.
