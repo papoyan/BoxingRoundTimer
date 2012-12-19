@@ -6,7 +6,7 @@ import time
 import random
 import bisect
 
-combinations = {
+COMBINATIONS = {
         '1 2': 5.0,
         '1 2 3': 4.5,
         '1 1 2 3': 4.0,
@@ -26,19 +26,14 @@ def play_sound(words, rate=220):
     sh.say(words, '-r %d' % rate)
 
 def select_combo():
-
-    items = combinations.keys()
-
+    items = COMBINATIONS.keys()
     mysum = 0
     breakpoints = [] 
-
     for i in items:
-        mysum += combinations[i]
+        mysum += COMBINATIONS[i]
         breakpoints.append(mysum)
-
     score = random.random() * breakpoints[-1]
-    i = bisect.bisect(breakpoints, score)
-    return items[i] 
+    return items[bisect.bisect(breakpoints, score)]
 
 def play_combo():
     play_sound(select_combo())
