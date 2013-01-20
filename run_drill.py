@@ -5,6 +5,7 @@ import sys
 import time
 import random
 import bisect
+import argparse
 
 COMBINATIONS = {
         '1 2': 5.0,
@@ -58,26 +59,18 @@ def do_round(round_number, length=3):
     print 'round %d COMPLETE\n\n' % round_number
     play_sound('round %d complete' % round_number, 200)
 
-    
-def help():
-    print '%s <number of rounds>' % sys.argv[0]
-    sys.exit(2)
-
-def main():
-    wait_period = 60
-    try:
-        number_of_rounds = int(sys.argv[1])
-    except IndexError:
-        help()
-    except ValueError:
-        help()
-
-    for round_number in range(0, number_of_rounds):
-        do_round(round_number+1)
-        time.sleep(wait_period-10)
+def run_drill(number_of_rounds, round_length, rest_period=60):
+    for round_number in range(1, number_of_rounds+1):
+        do_round(round_number, round_length)
+        time.sleep(rest_period)
         print '10 seconds'
         play_sound('10 seconds')
-        time.sleep(10)
+        time.sleep(10)    
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description='')
+    parser.add_argument('-r', '--rounds', required=True, type=int, dest='number_of_rounds',
+                        help='Number of rounds')                        
+    parser.add_argument('-l', '--round_length', default=3, type=int, dest='round_length',
+                        help='Length of each round in minutes. Default 3 minutes.')
+    run_drill(parser.parse_args().number_of_rounds, parser.parse_args().round_length)
